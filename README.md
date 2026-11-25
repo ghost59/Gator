@@ -1,15 +1,56 @@
-This is Gator, a blog agerragator tool. It was built under the guide of boot.dev.
-This tool allows you to register users, add feeds, follows feeds.
-It requires Postgress and Go in order to run the program.
-To install gator, you will have to use go install.
+# Gator
 
-You can set up a config file like using .gatorconfig.json , this will hold the current uset and the URL to the database.
-``` json
-{
-"db_url":"postgres://example:123@localhost:3344",
-"current_user_name":"cow"
-}
-```
-Data migrations work when you set up the schema and use goose in order to get the mirgation to go up or down.
-Going down drops the tables and going up creates them.
-This is how we keep the tables clean and the code can be generated with sqlc to make new queries. 
+Gator is a command-line RSS feed aggregator written in Go. It enables multi-user feed management, background scraping, and terminal-based reading of published blog posts using PostgreSQL.
+
+## Features
+
+- **User Management**: Multi-user support with registration, login, and active session tracking stored in a local config.
+- **Feed Management**: Add, follow, and unfollow standard RSS feeds per user.
+- **Continuous Aggregation**: Long-running background worker that scrapes followed feeds at configurable intervals and saves new posts to the database.
+- **Post Browsing**: View recent posts directly in the terminal from all feeds the active user follows.
+
+## Tech Stack
+
+- **Language**: Go
+- **Database**: PostgreSQL
+- **Database Tooling**: Goose (migrations), sqlc (type-safe Go generation)
+
+## Prerequisites
+
+- [Go](https://golang.org/dl/) (1.22+)
+- [PostgreSQL](https://www.postgresql.org/)
+
+## Installation & Setup
+
+1. Clone and install the binary:
+   ```bash
+   git clone https://github.com/your-username/gator.git
+   cd gator
+   go install .
+
+    {
+      "db_url": "postgres://username:password@localhost:5432/gator?sslmode=disable",
+      "current_user_name": ""
+    }
+    
+    goose -dir sql/schema postgres "<YOUR_DB_URL>" up
+    
+    # User commands
+    gator register <username>
+    gator login <username>
+    gator users
+    
+    # Feed commands
+    gator addfeed <name> <url>
+    gator feeds
+    gator follow <url>
+    gator following
+    gator unfollow <url>
+    
+    # Aggregation & Browsing
+    gator agg 1m          # Scrapes feeds every 1 minute
+    gator browse [limit]   # Read recent posts (default limit: 2)
+    
+    
+    Listing out the CLI commands like that makes it immediately clear how the app behaves and highlights both the multi-user architecture and the scraping worker.
+   ```
