@@ -34,21 +34,21 @@ Gator is a command-line RSS feed aggregator written in Go. It enables multi-user
     }
     
     goose -dir sql/schema postgres "<YOUR_DB_URL>" up```
- #User commands
+ # User commands
   gator register <username>
   gator login <username>
   gator users
     
- #Feed commands
+ # Feed commands
     gator addfeed <name> <url>
     gator feeds
     gator follow <url>
     gator following
     gator unfollow <url>
     
-  #Aggregation & Browsing
+  # Aggregation & Browsing
    gator agg 1m         
- #Scrapes feeds every 1 minute
+ #vScrapes feeds every 1 minute
    gator browse [limit]   
 # Read recent posts (default limit: 2)
     
